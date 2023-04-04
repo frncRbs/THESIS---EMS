@@ -1,0 +1,268 @@
+{% extends 'layout/base.html' %}
+{% block title %} Login and Register {% endblock %}
+{% block content%}
+<style type="text/css">
+body{
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	font-family: 'Jost', sans-serif;
+	background: linear-gradient(to bottom, #18290c, #3d632b, #2a3e24);
+}
+.main{
+	width: 450px;
+	height: 850px;
+	background: rgb(0, 255, 34);
+	overflow: hidden;
+	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+	border-radius: 10px;
+	box-shadow: 5px 20px 50px #000;
+}
+#chk{
+	display: none;
+}
+.signup{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.SignupLabel{
+	color: #3b8a3f;
+	font-size: 2.5em;
+	justify-content: center;
+	display: flex;
+	margin: 10px 30px 0 30px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+.LoginLabel{
+	color: #fff;
+	font-size: 2.5em;
+	justify-content: center;
+	display: flex;
+	margin: 60px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+.HomeLabel{
+	color: green;
+	font-size: 1.5em;
+	justify-content: center;
+	display: flex;
+	margin: 60px 0 70px 0;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+input{
+	width: 60%;
+	height: 20px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 5px auto;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+select{
+	width: 64%;
+	height: 40px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 5px auto;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+button{
+	width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: #3b8a42;
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 20px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+button:hover{
+	background: #52b844;
+}
+.login{
+	height: 600px;
+	background: #eee;
+	border-radius: 60% / 10%;
+	transform: translateY(-60px);
+	transition: .8s ease-in-out;
+}
+.login label{
+	color: #3b8a3f;
+	transform: scale(.6);
+}
+#chk:checked ~ .login{
+	transform: translateY(-700px);
+}
+#chk:checked ~ .login label{
+	transform: scale(1);	
+}
+#chk:checked ~ .signup label{
+	transform: scale(.6);
+}
+</style>
+	<div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+		<div class="signup">
+			<form action="{{ url_for('_route_it.signupIT') }}" method="POST">
+				<label for="chk" aria-hidden="true" class="SignupLabel">Sign up for IT</label>
+				
+				<label for="first_name" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">First Name :
+				<input type="text" name="first_name" placeholder="First Name" required autocomplete="off">
+
+				<label for="middle_name" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Middle Name :</label>
+				<input type="text" name="middle_name" placeholder="Middle Name" autocomplete="off">
+
+				<label for="last_name" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Last Name :</label>
+				<input type="text" name="last_name" placeholder="Last Name" required autocomplete="off">
+
+				<label for="sex" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Sex :</label>
+				<select type="text" name="sex" id="drop-down" placeholder="Sex" required="">
+					<option value="">Sex</option>
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
+
+				<label for="curriculum_year" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Curriculum Year :</label>
+				<select type="text" name="curriculum_year" id="drop-down" placeholder="Curriculum Year" required="" autocomplete="off">
+					<option value="">Curriculum Year</option>
+					{% if curriculum_input %}
+                    	{% for curriculum in curriculum_input %}
+							<option value="{{ curriculum.curriculum_year }}">{{ curriculum.curriculum_year }}</option>
+                    	{% endfor %}
+                  	{% endif %}
+				</select>
+				<div>
+					{% with messages = get_flashed_messages(with_categories=true) %}
+						{% if messages %}
+							{% for category, message in messages %}
+								{% if category == 'success_register_it' %}
+									<div class="">
+										<div class="">
+											<div class="">
+												<div style="padding: 10%; color: rgb(27, 202, 27); font-size: 25px; font-weight: 700">
+													<center>
+														{{ message }}
+													</center>
+													<script>
+														window.setTimeout(function () {
+															window.location.reload();
+														  }, 10000);
+													</script>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% elif category == 'error' %}
+									<div class="">
+										<div class="">
+											<div class="">
+												<div style="padding: 10%; color: red; font-size: 25px; font-weight: 700">
+													<center>
+														{{ message }}
+													</center>
+													<script>
+														window.setTimeout(function () {
+															window.location.reload();
+														}, 3000);
+													</script>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% elif category == 'info' %}
+									<div class="">
+										<div class="">
+											<div class="">
+												<div style="padding: 10%; color: green; font-size: 25px; font-weight: 700">
+													<center>
+														{{ message }}
+													</center>
+													<script>
+														window.setTimeout(function () {
+															window.location.reload();
+														}, 3000);
+													</script>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					{% endwith %}
+				</div>
+
+				<label for="contact_number" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Contact Number :</label>
+				<input type="number" name="contact_number" placeholder="Contact Number" required>
+
+				<label for="email" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Email :</label>
+				<input type="email" name="email" placeholder="Email" required>
+
+                <label for="password" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Password :</label>
+				<input type="password" name="password" placeholder="Password" required>
+
+				<label for="desired_career" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Select Career :</label>
+				<select type="text" name="desired_career" id="drop-down" placeholder="Select career" required="">
+					<option value="">Desired Career</option>
+					<option value="Software Engineer / Programmer">Software Engineer / Programmer</option>
+					<option value="Technical Support Specialist">Technical Support Specialist</option>
+					<option value="Academician">Academician</option>
+					<option value="Administrative Assistant">Administrative Assistant</option>
+				</select>
+
+                <label for="program" style="color: white; font-size: 14px; margin-left: 75px; padding: 0;">Select Status :</label>
+				<select type="text" name="program" id="drop-down" placeholder="Select Status" required="">
+					<option value="">Status</option>
+					<option value="Shiftee">Shiftee</option>
+					<option value="Transferee">Transferee</option>
+					<option value="Regular">Regular</option>
+				</select>
+
+				<!-- <input type="text" name="department" placeholder="Department" value="Information Technology" readonly> -->
+				
+				<center>
+					<div style="position: relative; bottom: 20px">
+						<label for="chk" style="display: inline-block; color: white; padding: 0; margin: 0" aria-hidden="true" class="HomeLabel">Login</label>
+						<button style="display: inline-block; width: 30%" type="submit">Sign up</button>
+					</div>
+				</center>
+			</form>
+		</div>
+
+		<div class="login">
+			
+			<form action="{{ url_for('_route_it.login_IT') }}" method="POST">
+				<a href="/" for="chk" aria-hidden="true" class="HomeLabel"></a>
+				<center><label for="email" class="LoginLabel">Login for IT</label></center>
+				<input type="email" name="email" placeholder="Email" required="" autocomplete="off">
+				<input type="password" name="password" placeholder="Password" required="" autocomplete="off">
+				<button type="submit">Login</button>
+			</form>
+			<button onclick="window.location='/'"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Home</button>
+		</div>
+	</div>
+{% endblock %}
